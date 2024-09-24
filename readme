@@ -1,0 +1,43 @@
+# Sistema de Controle de Estoque
+
+Este é um sistema básico de controle de estoque utilizando SQL. Ele permite o gerenciamento de produtos, fornecedores, compras e vendas. O sistema também possibilita a consulta de dados sobre estoque, produtos, compras e vendas, bem como a atualização e exclusão de registros.
+
+## Estrutura do Banco de Dados
+
+O sistema contém as seguintes tabelas:
+
+- **categorias**: Contém as categorias dos produtos.
+- **produtos**: Armazena informações sobre os produtos, como nome, descrição, preço e quantidade em estoque.
+- **fornecedores**: Armazena informações sobre os fornecedores dos produtos.
+- **compras**: Registra as compras de produtos (entrada no estoque).
+- **vendas**: Registra as vendas de produtos (saída do estoque).
+
+## Funcionalidades
+
+- Inserir novos produtos, fornecedores, compras e vendas.
+- Atualizar a quantidade de estoque após compras ou vendas.
+- Consultar dados sobre produtos, fornecedores, compras e vendas.
+- Excluir produtos, compras ou vendas.
+
+## Como Usar
+
+1. Execute o script SQL fornecido para criar o banco de dados e as tabelas.
+2. Insira os dados de exemplo nas tabelas de categorias, produtos, fornecedores, compras e vendas.
+3. Utilize as consultas para visualizar o estado do estoque e transações.
+4. Utilize as operações de `UPDATE` e `DELETE` para atualizar ou remover registros conforme necessário.
+
+### Consultas Incluídas
+
+- Exibição de produtos com suas categorias e quantidade em estoque.
+- Exibição de todas as compras realizadas com informações dos fornecedores.
+- Exibição de todas as vendas realizadas.
+- Atualização da quantidade de estoque após compras ou vendas.
+- Exclusão de produtos, compras ou vendas.
+
+### Requisitos
+
+- MySQL ou outro sistema de gerenciamento de banco de dados relacional (RDBMS) compatível com SQL.
+
+## Licença
+
+Este projeto é licenciado sob a Licença MIT. Consulte o arquivo `LICENSE` para mais informações.
