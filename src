@@ -1,0 +1,137 @@
+-- Criação do banco de dados
+DROP DATABASE IF EXISTS controle_estoque;
+CREATE DATABASE controle_estoque;
+
+-- Seleção do banco de dados
+USE controle_estoque;
+
+-- Criação da tabela de categorias
+CREATE TABLE categorias (
+  categoria_id INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100)
+);
+
+-- Criação da tabela de produtos
+CREATE TABLE produtos (
+  produto_id INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100),
+  descricao TEXT,
+  preco DECIMAL(10, 2),
+  quantidade_estoque INT,
+  categoria_id INT,
+  FOREIGN KEY (categoria_id) REFERENCES categorias(categoria_id)
+);
+
+-- Criação da tabela de fornecedores
+CREATE TABLE fornecedores (
+  fornecedor_id INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(100),
+  telefone VARCHAR(20),
+  email VARCHAR(100),
+  endereco VARCHAR(255)
+);
+
+-- Criação da tabela de compras (entrada de produtos no estoque)
+CREATE TABLE compras (
+  compra_id INT PRIMARY KEY AUTO_INCREMENT,
+  produto_id INT,
+  fornecedor_id INT,
+  quantidade INT,
+  data_compra DATE,
+  FOREIGN KEY (produto_id) REFERENCES produtos(produto_id),
+  FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(fornecedor_id)
+);
+
+-- Criação da tabela de vendas (saída de produtos do estoque)
+CREATE TABLE vendas (
+  venda_id INT PRIMARY KEY AUTO_INCREMENT,
+  produto_id INT,
+  quantidade INT,
+  data_venda DATE,
+  preco_venda DECIMAL(10, 2),
+  FOREIGN KEY (produto_id) REFERENCES produtos(produto_id)
+);
+
+-- Inserção de dados na tabela de categorias
+INSERT INTO categorias (nome) VALUES
+('Eletrônicos'),
+('Eletrodomésticos'),
+('Móveis');
+
+-- Inserção de dados na tabela de produtos
+INSERT INTO produtos (nome, descricao, preco, quantidade_estoque, categoria_id) VALUES
+('Notebook', 'Notebook com 16GB RAM e 512GB SSD', 3500.00, 20, 1),
+('Geladeira', 'Geladeira duplex, 400L', 2000.00, 10, 2),
+('Sofá', 'Sofá de 3 lugares, cor cinza', 1500.00, 15, 3);
+
+-- Inserção de dados na tabela de fornecedores
+INSERT INTO fornecedores (nome, telefone, email, endereco) VALUES
+('Tech Supplier', '11999999999', 'contato@techsupplier.com', 'Rua A, 123'),
+('Home Goods', '11888888888', 'contato@homegoods.com', 'Av. B, 456'),
+('Furniture Co.', '11777777777', 'contato@furnitureco.com', 'Rua C, 789');
+
+-- Inserção de dados na tabela de compras (entrada de estoque)
+INSERT INTO compras (produto_id, fornecedor_id, quantidade, data_compra) VALUES
+(1, 1, 5, '2024-09-10'),
+(2, 2, 3, '2024-09-11'),
+(3, 3, 7, '2024-09-12');
+
+-- Inserção de dados na tabela de vendas (saída de estoque)
+INSERT INTO vendas (produto_id, quantidade, data_venda, preco_venda) VALUES
+(1, 2, '2024-09-15', 3600.00),
+(2, 1, '2024-09-16', 2100.00),
+(3, 3, '2024-09-17', 1550.00);
+
+-- Consulta para exibir todos os produtos com suas categorias e estoque
+SELECT 
+  produtos.nome AS produto,
+  produtos.descricao,
+  categorias.nome AS categoria,
+  produtos.quantidade_estoque
+FROM produtos
+JOIN categorias ON produtos.categoria_id = categorias.categoria_id;
+
+-- Consulta para exibir todas as compras realizadas
+SELECT 
+  compras.compra_id,
+  produtos.nome AS produto,
+  fornecedores.nome AS fornecedor,
+  compras.quantidade,
+  compras.data_compra
+FROM compras
+JOIN produtos ON compras.produto_id = produtos.produto_id
+JOIN fornecedores ON compras.fornecedor_id = fornecedores.fornecedor_id;
+
+-- Consulta para exibir todas as vendas realizadas
+SELECT 
+  vendas.venda_id,
+  produtos.nome AS produto,
+  vendas.quantidade,
+  vendas.data_venda,
+  vendas.preco_venda
+FROM vendas
+JOIN produtos ON vendas.produto_id = produtos.produto_id;
+
+-- Atualização do estoque de um produto após uma compra
+UPDATE produtos
+SET quantidade_estoque = quantidade_estoque + 10
+WHERE produto_id = 1;
+
+-- Atualização do estoque de um produto após uma venda
+UPDATE produtos
+SET quantidade_estoque = quantidade_estoque - 2
+WHERE produto_id = 1;
+
+-- Exclusão de uma venda
+DELETE FROM vendas
+WHERE venda_id = 1;
+
+-- Exclusão de um produto e suas relações
+DELETE FROM compras 
+WHERE produto_id = 2;
+
+DELETE FROM vendas
+WHERE produto_id = 2;
+
+DELETE FROM produtos 
+WHERE produto_id = 2;
