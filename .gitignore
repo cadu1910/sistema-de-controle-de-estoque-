@@ -1,0 +1,18 @@
+# Arquivos de banco de dados
+*.sql
+
+# Arquivos temporários do sistema
+*.log
+*.tmp
+*.bak
+
+# Pastas e arquivos locais
+.vscode/
+.idea/
+.env
+node_modules/
+.DS_Store
+
+# Arquivos de backup
+*.bak
+*.old
